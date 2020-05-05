@@ -1,0 +1,106 @@
+version: '2.0'
+services:
+  adminer:
+    image: adminer
+    container_name: pimcore-skeleton-adminer
+    # restart: always
+    ports:
+      - 2002:8080
+
+  ####### SKELETON #######
+  redis-skeleton:
+    image: redis:alpine
+    container_name: pimcore-skeleton-redis
+
+  db-skeleton:
+    image: mariadb:10.4
+    container_name: pimcore-skeleton-mariadb
+    working_dir: /application
+    command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --innodb-file-format=Barracuda, --innodb-large-prefix=1, --innodb-file-per-table=1]
+    volumes:
+      - pimcore-skeleton-database:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=ROOT
+      - MYSQL_DATABASE=pimcore-skeleton
+      - MYSQL_USER=pimcore-skeleton
+      - MYSQL_PASSWORD=pimcore-skeleton
+
+  php-skeleton:
+    image: pimcore/pimcore:PHP7.2-apache
+    container_name: pimcore-skeleton-php
+    volumes:
+      - ./html-skeleton:/var/www/html:cached
+    ports:
+     - "2000:80"
+     - "2001:443"
+    links:
+     - db-skeleton:db-skeleton
+     - redis-skeleton:redis-skeleton
+
+  php-debug-skeleton:
+    image: pimcore/pimcore:PHP7.2-apache-debug
+    container_name: pimcore-skeleton-debug-php
+    volumes:
+      - ./html-skeleton:/var/www/html:cached
+    ports:
+     - "2006:80"
+    links:
+     - db-skeleton:db-skeleton
+     - redis-skeleton:redis-skeleton
+    environment:
+      - PHP_IDE_CONFIG="serverName=localhost"
+  
+  ####### DEMO #######
+  redis-demo:
+    image: redis:alpine
+    container_name: pimcore-demo-redis
+
+  db-demo:
+    image: mariadb:10.4
+    container_name: pimcore-demo-mariadb
+    working_dir: /application
+    command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --innodb-file-format=Barracuda, --innodb-large-prefix=1, --innodb-file-per-table=1]
+    volumes:
+      - pimcore-demo-database:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=ROOT
+      - MYSQL_DATABASE=pimcore-demo
+      - MYSQL_USER=pimcore-demo
+      - MYSQL_PASSWORD=pimcore-demo
+
+  # adminer-demo:
+  #   image: adminer
+  #   container_name: pimcore-demo-adminer
+  #   # restart: always
+  #   ports:
+  #     - 2012:8080
+
+  php-demo:
+    image: pimcore/pimcore:PHP7.2-apache
+    container_name: pimcore-demo-php
+    volumes:
+      - ./html-demo:/var/www/html:cached
+    ports:
+     - "2010:80"
+     - "2011:443"
+    links:
+     - db-demo:db-demo
+     - redis-demo:redis-demo
+
+  php-debug-demo:
+    image: pimcore/pimcore:PHP7.2-apache-debug
+    container_name: pimcore-demo-debug-php
+    volumes:
+      - ./html-demo:/var/www/html:cached
+    ports:
+     - "2016:80"
+    links:
+     - db-demo:db-demo
+     - redis-demo:redis-demo
+    environment:
+      - PHP_IDE_CONFIG="serverName=localhost"
+
+####### VOLUMES #######
+volumes:
+  pimcore-skeleton-database:
+  pimcore-demo-database:
