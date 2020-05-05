@@ -6,15 +6,15 @@ Docker-Compose consists of the following images:
  - MariaDB 10.4
  - httpd (Apache 2.4) & PHP-FPM with PHP7.2 and all Pimcore required dependencies (LibreOffice, FFMPEG, Image Libraries, etc)
  - PHP-FPM with PHP7.2 and all Pimcore required dependencies (LibreOffice, Image Libraries, etc) (except FFMPEG)
+
+## Acknowledgment
+Credit to [Dominik](https://github.com/dpfaffenbauer), this repo was bases off of [Dominik's pimcore-docker-compose](https://github.com/dpfaffenbauer/pimcore-docker-compose).
  
 ## Getting Started
 ### Requirements
 * git
 * docker
 * docker-compose
-
-## Acknowledgment
-Credit to [Dominik](https://github.com/dpfaffenbauer), this repo was bases off of [Dominik's pimcore-docker-compose](https://github.com/dpfaffenbauer/pimcore-docker-compose).
 
 ### *Windows Setup
 #### Setup Docker on Windows WSL2
