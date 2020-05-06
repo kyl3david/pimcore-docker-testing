@@ -2,7 +2,7 @@ version: '2.0'
 services:
   adminer:
     image: adminer
-    container_name: pimcore-skeleton-adminer
+    container_name: pimcore-adminer
     # restart: always
     ports:
       - 2002:8080
@@ -18,7 +18,7 @@ services:
     working_dir: /application
     command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --innodb-file-format=Barracuda, --innodb-large-prefix=1, --innodb-file-per-table=1]
     volumes:
-      - pimcore-skeleton-database:/var/lib/mysql
+      - ./db-skeleton:/var/lib/mysql:delegated
     environment:
       - MYSQL_ROOT_PASSWORD=ROOT
       - MYSQL_DATABASE=pimcore-skeleton
@@ -61,19 +61,12 @@ services:
     working_dir: /application
     command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --innodb-file-format=Barracuda, --innodb-large-prefix=1, --innodb-file-per-table=1]
     volumes:
-      - pimcore-demo-database:/var/lib/mysql
+      - ./db-demo:/var/lib/mysql:delegated
     environment:
       - MYSQL_ROOT_PASSWORD=ROOT
       - MYSQL_DATABASE=pimcore-demo
       - MYSQL_USER=pimcore-demo
       - MYSQL_PASSWORD=pimcore-demo
-
-  # adminer-demo:
-  #   image: adminer
-  #   container_name: pimcore-demo-adminer
-  #   # restart: always
-  #   ports:
-  #     - 2012:8080
 
   php-demo:
     image: pimcore/pimcore:PHP7.2-apache
@@ -101,6 +94,6 @@ services:
       - PHP_IDE_CONFIG="serverName=localhost"
 
 ####### VOLUMES #######
-volumes:
-  pimcore-skeleton-database:
-  pimcore-demo-database:
+# volumes:
+  # pimcore-skeleton-database:
+  # pimcore-demo-database:

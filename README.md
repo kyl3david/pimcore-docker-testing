@@ -54,8 +54,8 @@ rmdir tmp-skeleton
 #increase the memory_limit to >= 512MB as required by pimcore-install
 echo 'memory_limit = 512M' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini;
 service apache2 reload
-#run installer
-./vendor/bin/pimcore-install --admin-username admin --admin-password admin --mysql-host-socket=db-skeleton --mysql-username=pimcore-skeleton --mysql-password=pimcore-skeleton --mysql-database=pimcore-skeleton --no-interaction
+#run installer, if you need to reinstall you can add --ignore-existing-config
+./vendor/bin/pimcore-install --admin-username admin --admin-password admin --mysql-host-socket=db-skeleton --mysql-username=pimcore-skeleton --mysql-password=pimcore-skeleton --mysql-database=pimcore-skeleton --no-interaction --ignore-existing-config
 # fix permissions
 chown www-data: . -R 
 exit
@@ -76,8 +76,8 @@ rmdir tmp-demo
 #increase the memory_limit to >= 512MB as required by pimcore-install
 echo 'memory_limit = 512M' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini;
 service apache2 reload
-#run installer
-./vendor/bin/pimcore-install --admin-username admin --admin-password admin --mysql-host-socket=db-demo --mysql-username=pimcore-demo --mysql-password=pimcore-demo --mysql-database=pimcore-demo --no-interaction
+#run installer, if you need to reinstall you can add --ignore-existing-config
+./vendor/bin/pimcore-install --admin-username admin --admin-password admin --mysql-host-socket=db-demo --mysql-username=pimcore-demo --mysql-password=pimcore-demo --mysql-database=pimcore-demo --no-interaction --ignore-existing-config
 # fix permissions
 chown www-data: . -R 
 exit
